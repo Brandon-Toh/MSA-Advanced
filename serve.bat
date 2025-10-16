@@ -1,0 +1,3 @@
+@echo off
+echo Starting Ionic with local Angular CLI...
+node "%cd%\node_modules\@angular\cli\bin\ng.js" serve
