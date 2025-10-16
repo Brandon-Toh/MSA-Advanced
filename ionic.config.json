@@ -1,8 +1,5 @@
 {
   "name": "skippyQ",
   "integrations": {},
-  "type": "angular",
-  "cli": {
-    "defaultCommand": "serve"
-  }
+  "type": "angular"
 }
