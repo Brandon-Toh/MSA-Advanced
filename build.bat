@@ -1,3 +1,0 @@
-@echo off
-echo Building Ionic project using local Angular CLI...
-node "%cd%\node_modules\@angular\cli\bin\ng.js" build
