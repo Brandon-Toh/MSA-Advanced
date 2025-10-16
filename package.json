@@ -7,7 +7,6 @@
     "ng": "ng",
     "start": "npx ng serve",
     "ionic:serve": "node ./node_modules/@angular/cli/bin/ng.js serve",
-    // "build": "ng build",
     "build": "node ./node_modules/@angular/cli/bin/ng.js build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
