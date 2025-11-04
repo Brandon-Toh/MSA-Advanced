@@ -28,7 +28,7 @@
       <ion-thumbnail slot="start">
         <img [src]="item.image">
       </ion-thumbnail>
-      <ion-label>
+      <ion-label [routerLink]="['/edit-product', item.id]">
         <h2>{{item.name}}</h2>
         <p>{{item.price | currency}}</p>
       </ion-label>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-product',
@@ -7,10 +9,17 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class AddProductPage implements OnInit {
+  productId: string="";
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private router: Router) { 
+    this.productId = this.route.snapshot.params['id'];
+  }
 
   ngOnInit() {
+  }
+
+  add() {
+    this.router.navigate(['tabs/tab2'])
   }
 
 }

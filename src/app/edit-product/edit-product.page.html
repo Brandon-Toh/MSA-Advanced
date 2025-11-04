@@ -13,7 +13,12 @@
       <ion-title size="large">editProduct</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <ion-item>
     <ion-label color="medium">{{productId}}</ion-label>
   </ion-item>
+
+  <ion-button expand="block" color="secondary" (click)="update()">
+    Update
+  </ion-button>
 </ion-content>
