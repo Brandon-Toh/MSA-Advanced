@@ -10,3 +10,15 @@ ion-content ion toolbar {
     top: 50%;
     transform: translateY(-50%);
 }
+
+.product-card {
+    background-color: #dddfe0;
+    color: #000000;
+    padding: 5px;
+    text-align: center;
+}
+
+.image-card {
+    height: 30vh;
+    object-fit: cover;
+}

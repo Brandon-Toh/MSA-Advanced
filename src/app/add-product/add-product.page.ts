@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class AddProductPage implements OnInit {
-  productId: string="";
+  // productId: string="";
 
   constructor(private route: ActivatedRoute, private router: Router) { 
-    this.productId = this.route.snapshot.params['id'];
+    // this.productId = this.route.snapshot.params['id'];
   }
 
   ngOnInit() {

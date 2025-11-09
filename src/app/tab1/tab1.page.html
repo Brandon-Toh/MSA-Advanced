@@ -14,7 +14,25 @@
   </ion-header>
 
   <!-- <app-explore-container name="Tab 1 page"></app-explore-container> -->
-   <div id="container">
+   <div id="container" *ngIf="products.length === 0">
     <strong>There are no products</strong>
    </div>
+
+   <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let item of products">
+        <div class="product-card">
+          <img [src]=item.image class="image-card">
+          <div>{{item.name}}</div>
+          <div>{{item.price | currency}}</div>
+          <ion-button size="small" (click)=addToCart(item)>
+            <ion-icon slot="icon-only" name="cart"></ion-icon>
+          </ion-button>
+          <ion-button size="small" (click)="addToFav(item)">
+            <ion-icon slot="icon-only" name="heart"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+   </ion-grid>
 </ion-content>

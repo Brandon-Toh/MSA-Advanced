@@ -14,8 +14,10 @@
     </ion-toolbar>
   </ion-header>
 
+  <img [src]=productImage alt="" class="image-card">
+
   <ion-item>
-    <ion-label color="medium">{{productId}}</ion-label>
+    <ion-label color="medium">Product id is {{productId}}</ion-label>
   </ion-item>
 
   <ion-button expand="block" color="secondary" (click)="update()">
