@@ -11,36 +11,43 @@
     </ion-toolbar>
   </ion-header>
 
-  <form>
+  <form [formGroup]="addProductForm">
     <ion-item>
       <ion-label>Name</ion-label>
-      <ion-input></ion-input>
+      <ion-input formControlName="name"></ion-input>
+      <ion-label *ngIf="addProductForm.controls['name'].errors && submitted" color="danger">
+        Name is required
+      </ion-label>
     </ion-item>
 
     <ion-item>
       <ion-label>Price</ion-label>
-      <ion-input></ion-input>
+      <ion-input type="number" formControlName="price"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>Category</ion-label>
-      <ion-select>
-        <ion-select-option value="Food">
-          Food
-        </ion-select-option>
-        <ion-select-option value="Drink">
-          Drink
+      <ion-select formControlName="category">
+        <ion-select-option *ngFor="let option of categories" [value]="option">
+          {{ option }}
         </ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label>Vegetarian</ion-label>
-      <ion-toggle></ion-toggle>
+      <ion-toggle formControlName="vegetarian"></ion-toggle>
     </ion-item>
 
-    <ion-button expand="block" color="secondary" (click)="add()">
+    <ion-button expand="block" color="secondary" type="submit" (click)="add()">
       Add
     </ion-button>
   </form>
+
+  <ion-label color="medium">
+    {{ addProductForm.value.name }}
+    {{ addProductForm.value.price }}
+    {{ addProductForm.value.category }}
+    {{ addProductForm.value.vegetarian }}
+  </ion-label>
 </ion-content>

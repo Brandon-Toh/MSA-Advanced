@@ -17,6 +17,10 @@ export class ProductService {
     ]
   }
 
+  add(p: Product) {
+    this.products.push(p);
+  }
+
   getProducts(): Product[] {
     return this.products;
   }
