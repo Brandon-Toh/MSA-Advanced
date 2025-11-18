@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProductService } from '../shared/services/product';
 import { Product } from '../shared/models/product';
+import { positiveNumber } from '../shared/services/positiveNumber.validator';
 
 @Component({
   selector: 'app-add-product',
@@ -21,7 +22,7 @@ export class AddProductPage implements OnInit {
     this.categories = ['Main', 'Beverage', 'Dessert'];
     this.addProductForm = new FormGroup({
       name: new FormControl('', [Validators.required]), 
-      price: new FormControl(0), 
+      price: new FormControl(0, [positiveNumber]), 
       category: new FormControl('Main'),       
       vegetarian: new FormControl(true) 
     })
@@ -32,17 +33,18 @@ export class AddProductPage implements OnInit {
 
   add() {
     this.submitted = true;
-    
-    const prod = new Product(
-      this.addProductForm.value.name,
-      this.addProductForm.value.price,
-      "",
-      this.addProductForm.value.name);
-    prod.category = this.addProductForm.value.category;
-    prod.vegetarian = this.addProductForm.value.vegetarian;
-    this.productService.add(prod);
-    
-    this.router.navigate(['tabs/tab2'])
-  }
 
+    if (this.addProductForm.valid) {
+      const prod = new Product(
+        this.addProductForm.value.name,
+        this.addProductForm.value.price,
+        "",
+        this.addProductForm.value.name);
+      prod.category = this.addProductForm.value.category;
+      prod.vegetarian = this.addProductForm.value.vegetarian;
+      this.productService.add(prod);
+      
+      this.router.navigate(['tabs/tab2'])
+    }
+  }
 }

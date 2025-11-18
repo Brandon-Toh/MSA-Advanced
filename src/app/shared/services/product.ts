@@ -21,6 +21,14 @@ export class ProductService {
     this.products.push(p);
   }
 
+  update(p: Product) { 
+    const index = this.products.findIndex(item => item.id == p.id); 
+    if (index >= 0) { 
+      const prod = this.products[index]; 
+      // Update all the fields except for id and image
+      prod.name = p.name; 
+      prod.price = p.price;}}
+
   getProducts(): Product[] {
     return this.products;
   }
