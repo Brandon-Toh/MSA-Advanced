@@ -27,7 +27,11 @@ export class ProductService {
       const prod = this.products[index]; 
       // Update all the fields except for id and image
       prod.name = p.name; 
-      prod.price = p.price;}}
+      prod.price = p.price;
+      prod.category = p.category;
+      prod.vegetarian = p.vegetarian;
+    }
+  }
 
   getProducts(): Product[] {
     return this.products;
