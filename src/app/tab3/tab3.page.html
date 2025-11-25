@@ -12,9 +12,21 @@
       <ion-title size="large">Account</ion-title>
     </ion-toolbar>
   </ion-header>
-
+  
   <!-- <app-explore-container name="Tab 3 page"></app-explore-container> -->
-   <div id="container">
+   <!-- <div id="container">
     <strong>You are not logged in</strong>
-   </div>
+   </div> -->
+
+  <div>
+    <ion-item>
+      You are not logged in
+    </ion-item>
+    <ion-button expand="block" type="submit" (click)="login()">
+      Login
+    </ion-button>
+    <ion-button expand="block" fill="clear" (click)="signup()">
+      Or Create an Account
+    </ion-button>
+  </div>
 </ion-content>
