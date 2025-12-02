@@ -18,7 +18,7 @@
     <strong>You are not logged in</strong>
    </div> -->
 
-  <div>
+  <div *ngIf="userEmail === undefined">
     <ion-item>
       You are not logged in
     </ion-item>
@@ -28,5 +28,12 @@
     <ion-button expand="block" fill="clear" (click)="signup()">
       Or Create an Account
     </ion-button>
+  </div>
+
+  <div *ngIf="userEmail !== undefined">
+    <ion-item>
+      Hello {{userEmail}}
+    </ion-item>
+    <ion-button expand="block" color="secondary" (click)="logout()">Logout</ion-button>
   </div>
 </ion-content>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { Authservice } from '../shared/services/authservice';
 
 @Component({
   selector: 'app-login',
@@ -10,8 +11,9 @@ import { ModalController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
+  loginError: string="";
 
-  constructor(private modalController: ModalController) {
+  constructor(private modalController: ModalController, private authService: Authservice) {
     this.loginForm = new FormGroup({
       email: new FormControl(''),
       password: new FormControl('')
@@ -22,7 +24,14 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    this.modalController.dismiss();
+    this.authService.login(
+      this.loginForm.value.email, this.loginForm.value.password)
+      .then(
+        user => this.modalController.dismiss()
+      )
+      .catch(
+        error => this.loginError = error.message
+      );
   }
 
 }

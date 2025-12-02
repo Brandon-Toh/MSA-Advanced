@@ -20,12 +20,18 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>Password</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
+      <ion-label>
+        <ion-label>Password</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-label>
     </ion-item>
 
     <ion-button expand="block" color="tertiary" type="submit" (click)="login()">
       Log In
     </ion-button>
   </form>
+
+  <ion-label color='danger'>
+    <p>{{loginError}}</p>
+  </ion-label>
 </ion-content>
