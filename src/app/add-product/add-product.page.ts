@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ProductService } from '../shared/services/product';
 import { Product } from '../shared/models/product';
 import { positiveNumber } from '../shared/services/positiveNumber.validator';
+import { FirebaseProductservice } from '../shared/services/firebase-productservice';
 
 @Component({
   selector: 'app-add-product',
@@ -17,7 +18,7 @@ export class AddProductPage implements OnInit {
   categories: string[]|undefined;
   submitted: boolean = false;
 
-  constructor(private router: Router, private productService: ProductService) { 
+  constructor(private router: Router, private productService: FirebaseProductservice) { 
     // this.productId = this.route.snapshot.params['id'];
     this.categories = ['Main', 'Beverage', 'Dessert'];
     this.addProductForm = new FormGroup({

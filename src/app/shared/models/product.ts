@@ -1,7 +1,8 @@
 export class Product {
     name: string;
     price: number;
-    image: string;
+    image: string; // For displaying in <img>
+    imagePath!: string; // Path for retrieving
     id: string;
     category: string|undefined;
     vegetarian: boolean|undefined;
