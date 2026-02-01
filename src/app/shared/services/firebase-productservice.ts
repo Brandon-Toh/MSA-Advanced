@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import 'firebase/storage';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import 'firebase/compat/storage';
 import { Observable } from 'rxjs';
 import { Product } from '../models/product';
 

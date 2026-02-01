@@ -1,37 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
-import { Authservice } from '../shared/services/authservice';
+import { Router } from '@angular/router';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  standalone: false
+  standalone: false,
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
   loginForm: FormGroup;
-  loginError: string="";
+  errorMessage = '';
 
-  constructor(private modalController: ModalController, private authService: Authservice) {
+  constructor(private authService: AuthService, private router: Router) {
     this.loginForm = new FormGroup({
       email: new FormControl(''),
-      password: new FormControl('')
+      password: new FormControl(''),
     });
   }
 
-  ngOnInit() {
-  }
+  async signIn() {
+    // TODO: Based on user role go to different page
+    this.errorMessage = '';
+    const email = this.loginForm.value.email;
+    const password = this.loginForm.value.password;
 
-  login() {
-    this.authService.login(
-      this.loginForm.value.email, this.loginForm.value.password)
-      .then(
-        user => this.modalController.dismiss()
-      )
-      .catch(
-        error => this.loginError = error.message
-      );
-  }
+    try {
+      const userCredential = await this.authService.signInWithEmail(email, password);
+      const user = userCredential.user;
 
+      if (user && user.email) {
+        // Get role from Firestore
+        const userDoc = await this.authService.fetchUserRole(user.email);
+        const role = userDoc.data()?.['role'];
+
+        if (role === 'user') {
+          this.router.navigate(['/tabs/new-loan']);
+        } else if (role === 'manager') {
+          this.router.navigate(['/tabs/manage']);
+        }
+      }
+    } catch (error: any) {
+      const code = error?.code ?? '';
+      if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
+        this.errorMessage = 'The password you entered is wrong. Please try again.';
+      } else if (code === 'auth/user-not-found') {
+        this.errorMessage = 'No account found with that email. Please check and try again.';
+      } else if (code === 'auth/invalid-email') {
+        this.errorMessage = 'Please enter a valid email address.';
+      } else {
+        this.errorMessage = 'The password you entered is wrong. Please try again.';
+      }
+    }
+  }
 }

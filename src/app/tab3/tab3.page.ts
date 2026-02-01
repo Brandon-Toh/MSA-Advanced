@@ -14,7 +14,7 @@ export class Tab3Page {
   userEmail: any;
 
   constructor(private modalController: ModalController, private authService: Authservice) {
-    this.authService.observeAuthState(user => {
+    this.authService.watchAuthState(user => {
       // User is logged in
       if (user) {
         this.userEmail = user.email;
@@ -26,18 +26,18 @@ export class Tab3Page {
     });
   }
 
-  logout() {
-    this.authService.logout();
+  signOutUser() {
+    this.authService.signOut();
   }
 
-  async login() {
+  async openLoginModal() {
     const modal = await this.modalController.create({
       component: LoginPage
     });
     return await modal.present();
   }
 
-  async signup() {
+  async openSignupModal() {
     const modal = await this.modalController.create({
       component: SignupPage
     });

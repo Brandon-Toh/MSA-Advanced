@@ -22,10 +22,10 @@
     <ion-item>
       You are not logged in
     </ion-item>
-    <ion-button expand="block" type="submit" (click)="login()">
+    <ion-button expand="block" type="submit" (click)="openLoginModal()">
       Login
     </ion-button>
-    <ion-button expand="block" fill="clear" (click)="signup()">
+    <ion-button expand="block" fill="clear" (click)="openSignupModal()">
       Or Create an Account
     </ion-button>
   </div>
@@ -34,6 +34,6 @@
     <ion-item>
       Hello {{userEmail}}
     </ion-item>
-    <ion-button expand="block" color="secondary" (click)="logout()">Logout</ion-button>
+    <ion-button expand="block" color="secondary" (click)="signOutUser()">Logout</ion-button>
   </div>
 </ion-content>

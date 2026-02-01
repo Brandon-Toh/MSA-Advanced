@@ -1,0 +1,82 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Insights</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="hero-kicker">Manager-only analytics</p>
+        <h1>Real-time item usage heatmap</h1>
+        <p>Spot peak borrowing periods instantly and align staffing, opening hours, and inventory around real demand.</p>
+        <div class="hero-status">
+          <span class="live-dot"></span>
+          <span>Live updates from loans collection</span>
+        </div>
+      </div>
+      <div class="hero-meta">
+        <div class="meta-block">
+          <span class="meta-label">Live loans tracked</span>
+          <span class="meta-value">{{ heatmap.total }}</span>
+        </div>
+        <div class="meta-block">
+          <span class="meta-label">Peak slot count</span>
+          <span class="meta-value">{{ heatmap.max }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="heatmap-card">
+      <div class="card-header">
+        <div class="card-title">
+          <h2>Weekly activity grid</h2>
+          <p>Rows represent days, columns represent time slots.</p>
+        </div>
+        <div class="chip-stack">
+          <ion-chip color="medium">
+            <ion-label>Tap or hover a cell for exact counts</ion-label>
+          </ion-chip>
+        </div>
+      </div>
+
+      <div class="heatmap-layout" #heatmapLayout>
+        <div class="corner-spacer"></div>
+        <div class="x-labels">
+          <span *ngFor="let slot of timeSlots">{{ slot.label }}</span>
+        </div>
+        <div class="y-labels">
+          <span *ngFor="let day of days">{{ day.short }}</span>
+        </div>
+        <div class="canvas-wrap" #canvasWrap>
+          <canvas
+            #heatmapCanvas
+            (pointermove)="onPointerMove($event)"
+            (pointerleave)="clearSelection()"
+            (pointerdown)="onPointerDown($event)">
+          </canvas>
+        </div>
+      </div>
+
+      <div class="legend">
+        <span>Low</span>
+        <div class="legend-bar"></div>
+        <span>High</span>
+      </div>
+
+      <ion-card class="selection-card" *ngIf="selectedInfo">
+        <ion-item lines="none">
+          <ion-label>
+            <h3>{{ selectedInfo.dayLabel }} - {{ selectedInfo.timeLabel }}</h3>
+            <p>{{ selectedInfo.count }} loans in this slot</p>
+          </ion-label>
+        </ion-item>
+      </ion-card>
+
+      <ion-note *ngIf="heatmap.total === 0" class="empty-note">
+        No loans recorded yet. The heatmap will light up as new loans are created.
+      </ion-note>
+    </section>
+  </div>
+</ion-content>

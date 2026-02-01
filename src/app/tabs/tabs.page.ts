@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { Authservice } from '../shared/services/authservice';
+import { Router } from '@angular/router';
+import { AuthService } from '../shared/auth.service';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
 
 @Component({
   selector: 'app-tabs',
@@ -8,21 +11,27 @@ import { Authservice } from '../shared/services/authservice';
   standalone: false,
 })
 export class TabsPage {
-  isAdmin = false;
+  isUser = false;
+  isManager = false;
 
-  constructor(private authService: Authservice) {
-    this.authService.observeAuthState(user => {
-      // User is logged in as administrator
-      // For simplicity, there is only one fixed admin
-      // Further enhancement would be to save the user role in Database
-      if (user && user.email == 'admin@nyp.sg') {
-        this.isAdmin = true;
-      }
-      // User has logged out or is NOT administrator
-      else {
-        this.isAdmin = false;
+  constructor(private authService: AuthService, private router: Router) { 
+    // Observe auth state
+    this.authService.watchAuthState(async (user) => {
+      if (user && user.email) {
+        const doc = await firebase.firestore().collection('users').doc(user.email).get();
+        const role = doc.data()?.['role'];
+
+        this.isUser = role === 'user';
+        this.isManager = role === 'manager';
+      } else {
+        this.isUser = false;
+        this.isManager = false;
       }
     })
   }
 
+  async signOutUser() {
+    await this.authService.signOut();
+    this.router.navigate(['/login']);
+  }
 }

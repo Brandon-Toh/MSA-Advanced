@@ -23,8 +23,8 @@ export class SignupPage implements OnInit {
   ngOnInit() {
   }
 
-  signup() {
-    this.authService.signup(
+  registerAccount() {
+    this.authService.registerWithEmail(
       this.signupForm.value.email,
       this.signupForm.value.password
     )

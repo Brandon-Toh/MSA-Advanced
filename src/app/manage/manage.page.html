@@ -1,0 +1,138 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Manage Loans
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="inventory-panel">
+    <ion-card-header>
+      <ion-card-title>Inventory Stock</ion-card-title>
+      <ion-card-subtitle>Manager-only stock adjustments</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="inventory-list">
+        <div class="inventory-row" *ngFor="let item of inventoryItems">
+          <div class="inventory-meta">
+            <h3>{{ item.id }}</h3>
+            <p>Available: {{ item.available }}</p>
+          </div>
+          <div class="inventory-actions">
+            <ion-input
+              type="number"
+              inputmode="numeric"
+              min="0"
+              [(ngModel)]="inventoryEdits[item.id]"
+            ></ion-input>
+            <ion-button color="primary" fill="solid" (click)="updateInventory(item.id)">
+              Save
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="risk-panel">
+    <ion-card-header>
+      <ion-card-title>Risk Insights</ion-card-title>
+      <ion-card-subtitle>Predictive stock risk &amp; approval intelligence</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="risk-filter">
+        <ion-chip [color]="selectedRiskItemId ? 'medium' : 'primary'" (click)="clearRiskFilter()">
+          <ion-icon name="layers-outline"></ion-icon>
+          <ion-label>All loans</ion-label>
+        </ion-chip>
+        <ion-chip *ngIf="selectedRiskItemId" color="tertiary">
+          <ion-icon name="funnel-outline"></ion-icon>
+          <ion-label>{{ selectedRiskItemId }}</ion-label>
+        </ion-chip>
+      </div>
+
+      <div class="risk-cards" *ngIf="riskInsights.length > 0; else emptyRisk">
+        <ion-card
+          class="risk-card"
+          *ngFor="let insight of riskInsights"
+          [class.selected]="selectedRiskItemId === insight.itemId"
+          [class.high]="insight.riskLevel === 'high'"
+          [class.medium]="insight.riskLevel === 'medium'"
+          [class.low]="insight.riskLevel === 'low'"
+          (click)="applyRiskFilter(insight.itemId)"
+        >
+          <ion-card-header>
+            <div class="risk-header">
+              <div>
+                <ion-card-title>{{ insight.itemId }}</ion-card-title>
+                <ion-card-subtitle>{{ getRiskLabel(insight.riskLevel) }}</ion-card-subtitle>
+              </div>
+              <ion-icon
+                [name]="insight.riskLevel === 'high' ? 'alert-circle' : insight.riskLevel === 'medium' ? 'warning' : 'checkmark-circle'"
+              ></ion-icon>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="risk-metrics">
+              <div>
+                <span class="label">Pending</span>
+                <span class="value">{{ insight.pendingRequests }}</span>
+              </div>
+              <div>
+                <span class="label">Borrowed (Next 14 days)</span>
+                <span class="value">{{ insight.overlappingLoans }}</span>
+              </div>
+              <div>
+                <span class="label">Stock</span>
+                <span class="value">{{ insight.availableStock }}</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <ng-template #emptyRisk>
+        <p class="risk-empty">No risk insights available yet. Inventory or loan data is still loading.</p>
+      </ng-template>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngFor="let loan of filteredLoans">
+    <ion-item>
+      <ion-icon name="person" slot="start"></ion-icon>
+      <ion-label>
+        {{ loan.username }}
+      </ion-label>
+      <ion-badge [color]="getRiskColor(getLoanRiskLevel(loan))">
+        {{ getRiskLabel(getLoanRiskLevel(loan)) }}
+      </ion-badge>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <div class="loan-items">
+          <div class="loan-item" *ngFor="let item of loan.items">
+            <span class="item-name">{{ item.id }}</span>
+            <span class="item-qty">x {{ item.quantity }}</span>
+            <ion-badge [color]="getRiskColor(getItemRiskLevel(item.id))">
+              {{ getRiskLabel(getItemRiskLevel(item.id)) }}
+            </ion-badge>
+          </div>
+        </div>
+        <div class="loan-actions">
+          <ion-button color="success" fill="outline" (click)="approveSelectedLoan(loan)">APPROVE</ion-button>
+          <ion-button color="danger" fill="outline" (click)="rejectSelectedLoan(loan)">REJECT</ion-button>
+        </div>
+      </ion-label>
+    </ion-item>
+  </ion-card>
+
+  <ion-alert
+    [isOpen]="showRiskConfirm"
+    header="High Risk Approval"
+    message="Approving this loan may cause a future stock shortage. Do you wish to proceed?"
+    [buttons]="riskConfirmButtons"
+    (didDismiss)="onRiskConfirmDismiss()"
+  ></ion-alert>
+</ion-content>

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Loan Details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Display loan details only after loan data is loaded -->
+  <ion-label *ngIf="loan">
+    <p>Id: {{ loanId }}</p>
+    <h3>Status: {{loan.status}}</h3>
+    <h3>Due Date: {{loan.duedate | date:'dd MMM yyyy'}}</h3>
+    <br>
+  </ion-label>
+  
+  <ion-list *ngIf="loan && loan.items.length > 0">
+    <ion-item *ngFor="let item of loan.items">
+      <ion-label>
+        <h2>{{item.id}} x {{item.quantity}}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-button *ngIf="loan && loan.status === 'pending'" expand="block" color="danger" (click)="withdrawLoan()">
+    Cancel Loan
+  </ion-button>
+</ion-content>

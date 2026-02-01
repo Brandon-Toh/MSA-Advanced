@@ -1,37 +1,32 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title>PocketStore</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Login</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-text-center">
+  <img src="../../assets/img/background.png" class="background-image">
 
   <form [formGroup]="loginForm">
+
     <ion-item>
-      <ion-label>
-        <ion-label>Email</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
-      </ion-label>
+      <ion-label>Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>
-        <ion-label>Password</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
-      </ion-label>
+      <ion-label>Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
 
-    <ion-button expand="block" color="tertiary" type="submit" (click)="login()">
-      Log In
+    <ion-button type="submit" (click)="signIn()">
+      Login
     </ion-button>
+
+    <ion-text color="danger" *ngIf="errorMessage">
+      <p>{{ errorMessage }}</p>
+    </ion-text>
+
   </form>
 
-  <ion-label color='danger'>
-    <p>{{loginError}}</p>
-  </ion-label>
 </ion-content>

@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import firebase from 'firebase';
-import 'firebase/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Authservice {
-  observeAuthState(func: firebase.Observer<any, Error> | ((a: firebase.User | null) => any)){
+  watchAuthState(func: firebase.Observer<any, Error> | ((a: firebase.User | null) => any)){
     return firebase.auth().onAuthStateChanged(func);
   }
 
-  login(email: string, password: string){
+  signInWithEmail(email: string, password: string){
     return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
-  logout() {
+  signOut() {
     return firebase.auth().signOut();
   }
 
-  signup(email: string, password: string){
+  registerWithEmail(email: string, password: string){
     return firebase.auth().createUserWithEmailAndPassword(email, password);
   }
 }

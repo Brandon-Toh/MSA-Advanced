@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      My Loans
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+
+  <ion-list>
+    <ion-item *ngFor="let loan of loans" [routerLink]="['/detail', loan.id]">
+      <ion-avatar slot="start">
+        <!-- Approved -->
+        <ion-icon *ngIf="loan.status === 'approved'"
+          name="checkmark-circle"
+          color="success"
+          size="large">
+        </ion-icon>
+        <!-- Rejected -->
+        <ion-icon *ngIf="loan.status === 'rejected'"
+          name="close-circle"
+          color="danger"
+          size="large">
+        </ion-icon>
+        <!-- Pending -->
+        <ion-icon *ngIf="loan.status === 'pending'"
+          name="cloud-circle"
+          color="warning"
+          size="large">
+        </ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <p>Username: {{loan.username}}</p>
+        <h3>Due Date: {{loan.duedate | date:'dd MMM yyyy'}}</h3>
+        <h3>Loan Items: {{loan.items.length}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  
+</ion-content>
